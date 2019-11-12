@@ -1,0 +1,7 @@
+name "grpc-tester"
+description "A minimal D application."
+authors "Harrison Ford"
+copyright "Copyright © 2019, Harrison Ford"
+license "proprietary"
+dependency "grpcd" version="~master"
+dependency "protobuf" version="~>0.6.0"
