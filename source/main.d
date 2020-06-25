@@ -5,24 +5,25 @@ import grpc.server;
 import grpc.server.builder;
 import helloworld.helloworld;
 import google.rpc.status;
+import core.atomic;
+debug import grpc.logger : gLogger, Verbosity;
 
-Server server;
+__gshared Server* server;
 
 extern(C) void handler(int num) nothrow @nogc @system
 {
-    server.run_ = false;
+    server.shutdown();
 }
 
 class HelloWorldServer : Greeter {
     private {
-        int count;
+        shared int count;
     }
 
     Status SayHello(HelloRequest req, ref HelloReply reply) {
         import std.conv : to;
-        count++;
         Status t;
-        reply.message = "You are lucky visitor number #" ~ to!string(count) ~ " today!";
+	reply.message = "Hello, " ~ req.name;
         return t;
     }
 
@@ -39,9 +40,8 @@ import std.stdio;
 import core.sys.posix.signal;
 void main() {
     signal(SIGINT, &handler);
-
-    grpc.core.init();
-    scope(exit) { grpc.core.shutdown(); }
+	
+    debug gLogger.minVerbosity = Verbosity.Debug;
 
     ServerBuilder builder = new ServerBuilder();
 
@@ -49,8 +49,6 @@ void main() {
 
     server = builder.build();
     builder.register!(HelloWorldServer)();
-
-    server.finish();
 
     server.run();
     
