@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./grpc-tester
+./hello-world-server

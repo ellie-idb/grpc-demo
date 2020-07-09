@@ -1,12 +1,10 @@
-name "grpc-tester"
+name "hello-world-server"
 description "A minimal D application."
 authors "Harrison Ford"
 copyright "Copyright © 2019, Harrison Ford"
 license "proprietary"
-dependency "protobuf" version="~>0.6.0"
-dependency "optional" version="~>1.0.0"
+dependency "protobuf" version="~>0.6.2"
 dependency "grpc-d-core" version="~master"
-dependency "stdx-allocator" version="~>3.0.2"
 
 configuration "executable" {
 	targetType "executable"
