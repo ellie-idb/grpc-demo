@@ -6,7 +6,7 @@ module helloworld.helloworld;
 import google.protobuf;
 import google.rpc.status;
 
-enum protocVersion = 3007000;
+enum protocVersion = 3012003;
 
 struct HelloRequest
 {
@@ -22,5 +22,8 @@ interface Greeter
 {
     @RPC("/helloworld.Greeter/SayHello")
     Status SayHello(HelloRequest, ref HelloReply);
+
+    @RPC("/helloworld.Greeter/SayGoodBye")
+    Status SayGoodBye(HelloRequest, ref HelloReply);
 
 }
