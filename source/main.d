@@ -1,4 +1,8 @@
 module app;
+
+import std.range;
+import std.parallelism;
+
 import grpc.core;
 import core.thread;
 import grpc.server;
@@ -27,6 +31,13 @@ class HelloWorldServer : Greeter {
         return t;
     }
 
+    Status SayGoodBye(HelloRequest req, ref HelloReply reply) {
+        import std.conv : to;
+        Status t;
+	reply.message = "grpc-d-core: Hello, " ~ req.name;
+        return t;
+    }
+
     this() {
 
     }
@@ -36,9 +47,22 @@ class HelloWorldServer : Greeter {
     }
 }
 
+void fun() {
+  foreach (i; 0 .. 5) {
+    writeln("fun", i);
+    foreach (num; parallel(iota(5))) {
+        writeln(num);
+    }
+    Thread.sleep(dur!("seconds")(5));
+  }
+}
+
+
 import std.stdio;
 import core.sys.posix.signal;
 void main() {
+    auto t = new Thread({fun();}).start();
+
     signal(SIGINT, &handler);
 	
     debug gLogger.minVerbosity = Verbosity.Debug;
